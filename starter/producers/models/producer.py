@@ -32,7 +32,7 @@ class Producer:
 
         self.broker_properties = {
             "id": 1,
-            "host": "http://localhost",
+            "host": "localhost",
             "port": 29092
         }
 
@@ -43,7 +43,7 @@ class Producer:
 
         self.producer = AvroProducer({
             'bootstrap.servers': self.broker_properties,
-            'schema.registry.url': 'http://localhost:8081'
+            'schema.registry.url': 'http://localhost:8091'
         }, default_key_schema=key_schema, default_value_schema=value_schema)
 
     def create_topic(self):

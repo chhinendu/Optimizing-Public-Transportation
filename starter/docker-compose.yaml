@@ -34,10 +34,10 @@ services:
   schema-registry:
     image: confluentinc/cp-schema-registry:5.2.2
     ports:
-    - "8081:8081"
+    - "8091:8091"
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka0:19092"
-      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8081"
+      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8091"
       SCHEMA_REGISTRY_HOST_NAME: "schema-registry"
       SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: "1"
     depends_on:
@@ -46,12 +46,12 @@ services:
   rest-proxy:
     image: confluentinc/cp-kafka-rest:5.2.2
     ports:
-    - "8082:8082"
+    - "8092:8092"
     environment:
       KAFKA_REST_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka0:19092"
-      KAFKA_REST_LISTENERS: "http://0.0.0.0:8082/"
+      KAFKA_REST_LISTENERS: "http://0.0.0.0:8092/"
       KAFKA_REST_HOST_NAME: "rest-proxy"
-      KAFKA_REST_SCHEMA_REGISTRY_URL: "http://schema-registry:8081/"
+      KAFKA_REST_SCHEMA_REGISTRY_URL: "http://schema-registry:8091/"
     depends_on:
     - "kafka0"
     - "schema-registry"
@@ -68,9 +68,9 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_KEY_CONVERTER: "io.confluent.connect.avro.AvroConverter"
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8091"
       CONNECT_VALUE_CONVERTER: "io.confluent.connect.avro.AvroConverter"
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8091"
       CONNECT_CONFIG_STORAGE_TOPIC: "connect-config"
       CONNECT_OFFSET_STORAGE_TOPIC: "connect-offset"
       CONNECT_STATUS_STORAGE_TOPIC: "connect-status"
@@ -89,7 +89,7 @@ services:
       KSQL_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka0:19092"
       KSQL_LISTENERS: "http://0.0.0.0:8088"
       KSQL_KSQL_SERVICE_ID: "ksql_service_docker"
-      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081/"
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8091/"
     depends_on:
     - "kafka0"
     - "schema-registry"
@@ -112,7 +112,7 @@ services:
     environment:
       PORT: "8085"
       PROXY: "true"
-      KAFKA_REST_PROXY_URL: "http://rest-proxy:8082"
+      KAFKA_REST_PROXY_URL: "http://rest-proxy:8092"
     depends_on:
     - "rest-proxy"
 
@@ -123,7 +123,7 @@ services:
     environment:
       PORT: "8086"
       PROXY: "true"
-      SCHEMAREGISTRY_URL: "http://schema-registry:8081/"
+      SCHEMAREGISTRY_URL: "http://schema-registry:8091/"
     depends_on:
     - "schema-registry"
 

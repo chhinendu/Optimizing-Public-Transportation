@@ -37,7 +37,7 @@ def execute_statement():
 
     resp = requests.post(
         f"{KSQL_URL}/ksql",
-        headers={"Content-Type": "application/vnd.ksql.v1+json"},
+        headers={"Content-Type": "application/vnd.ksql.v1+json; charset=utf-8"},
         data=json.dumps(
             {
                 "ksql": KSQL_STATEMENT,
